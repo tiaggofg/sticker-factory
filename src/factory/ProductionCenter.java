@@ -1,4 +1,4 @@
-package application;
+package factory;
 
 import java.net.MalformedURLException;
 import java.text.ParseException;
@@ -8,7 +8,7 @@ import extractor.ImdbExtractor;
 import httpClient.MyHttpClient;
 import imdb.ImdbMovie;
 
-public class Program {
+public class ProductionCenter {
 
 	public static void main(String[] args) throws ParseException, MalformedURLException {
 
