@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import imdb.ImdbMovie;
+import entertaimentContent.imdb.ImdbMovie;
 
 public class ImdbExtractor {
 	
@@ -25,12 +25,13 @@ public class ImdbExtractor {
 				Integer rank = Integer.parseInt((movie.get("rank")));
 				String title = movie.get("title");
 				String fullTitle = movie.get("fullTitle");
-				URL imageUrl = new URL(movie.get("image"));
+				String[] url = movie.get("image").split("._V", 0);
+				URL imageUrl = new URL(url[0]);
 				String[] crew = movie.get("crew").split(", ");
 				Date year = (new SimpleDateFormat("yyyy")).parse(movie.get("year"));
-				Float emdbRating = Float.parseFloat(movie.get("imDbRating"));
-				Float emdbRatingCount = Float.parseFloat(movie.get("imDbRatingCount"));	
-				movies.add(new ImdbMovie(id, rank, title, fullTitle, imageUrl, crew, year, emdbRating, emdbRatingCount));
+				Double imdbRating = Double.parseDouble(movie.get("imDbRating"));
+				Double imdbRatingCount = Double.parseDouble(movie.get("imDbRatingCount"));	
+				movies.add(new ImdbMovie(id, rank, title, fullTitle, imageUrl, crew, year, imdbRating, imdbRatingCount));
 			}
 			return movies;
 			

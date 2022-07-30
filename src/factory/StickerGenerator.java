@@ -6,43 +6,66 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
+import factory.classification.Classification;
+import factory.classification.Rating;
+
 public class StickerGenerator {
+	
+	private static Rating rating;
+	
+	public StickerGenerator () {
+	}
 
-	public static void producer(URL imageUrl, String title) throws IOException {
-		
-		BufferedImage img = ImageIO.read(imageUrl);
-		BufferedImage newImg = new BufferedImage(img.getWidth(),img.getHeight() + 200, BufferedImage.TRANSLUCENT);
-		Graphics2D graphics = newImg.createGraphics();
-		
-		graphics.drawImage(img, 0, 0, null);
-		
-		var font = new Font(Font.SANS_SERIF, Font.BOLD, 32);
-		graphics.setFont(font);
-		graphics.setColor(Color.YELLOW);
-		
-		String avaliacao = "topzera";
+	public static void producer (URL imageUrl, String title, Double value) {
 
-		graphics.drawString(avaliacao, (newImg.getWidth() / 2) - (graphics.getFontMetrics().stringWidth(avaliacao) / 2), newImg.getHeight() - 100);
+		var font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
+		String evaluation;
 		
-		File path = new File(Path.of("").toAbsolutePath().toString() + "/output");
-		
-		if (!path.exists()) {
-			path.mkdir();
-			ImageIO.write(newImg, "png", new File(path + "/" + title + ".png"));
-		} else {
-			ImageIO.write(newImg, "png", new File(path + "/" + title + ".png"));
+		try {
+			rating = new Rating(value);
+			BufferedImage poster = ImageIO.read(imageUrl);
+			int fifteenPerCentOfPosterHeight = (poster.getHeight() * 15/100);
+			BufferedImage sticker = new BufferedImage(poster.getWidth(), poster.getHeight() + fifteenPerCentOfPosterHeight, BufferedImage.TRANSLUCENT);
+			Graphics2D graphics = sticker.createGraphics();
+			
+			graphics.drawImage(poster, 0, 0, null);		
+			graphics.setFont(font);
+			graphics.setColor(Color.YELLOW);
+			
+			if (rating.getClassification() == Classification.AWFUL) {
+				evaluation = "Não perca tempo";
+			} else if (rating.getClassification() == Classification.MEDIOCRE) {
+				evaluation = "Poderia ser melhor";
+			} else if (rating.getClassification() == Classification.GOOD) {
+				evaluation = "Bom";
+			} else {
+				evaluation = "Não deixe de ver";
+			}
+			
+			int centerOfSticker = sticker.getWidth() / 2;
+			int centerOfText = (graphics.getFontMetrics().stringWidth(evaluation) / 2);
+			
+			graphics.drawString(evaluation, centerOfSticker - centerOfText, sticker.getHeight() - (fifteenPerCentOfPosterHeight/2));
+			graphics.drawImage(rating.getStars(), (sticker.getWidth() / 2) - (rating.getStars().getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);
+			
+			File path = new File(Path.of("").toAbsolutePath().toString() + "/output");
+			
+			if (!path.exists()) {
+				path.mkdir();
+				ImageIO.write(sticker, "png", new File(path + "/" + title + ".png"));
+			} else {
+				ImageIO.write(sticker, "png", new File(path + "/" + title + ".png"));
+			}
+			
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
 		
 	}
 	
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		StickerGenerator.producer(new URL("https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@..jpg"), "imagem");
-	}
-
 }

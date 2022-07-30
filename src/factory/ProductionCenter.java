@@ -4,9 +4,9 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 
+import entertaimentContent.imdb.ImdbMovie;
 import extractor.ImdbExtractor;
-import httpClient.MyHttpClient;
-import imdb.ImdbMovie;
+import http.MyHttpClient;
 
 public class ProductionCenter {
 
@@ -17,7 +17,10 @@ public class ProductionCenter {
 		var extractor = new ImdbExtractor();
 		
 		List<ImdbMovie> movies = extractor.data(json);
-
+		
+		for (int k = 1; k < 10; k++) {
+			StickerGenerator.producer(movies.get(k).getImageUrl(), movies.get(k).getTitle(), movies.get(k).getImdbRating());
+		}
 		
 	}
 
