@@ -23,7 +23,6 @@ public class StickerGenerator {
 
 	public static void producer (URL imageUrl, String title, Double value) {
 
-		var font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
 		String evaluation;
 		
 		try {
@@ -33,6 +32,7 @@ public class StickerGenerator {
 			BufferedImage sticker = new BufferedImage(poster.getWidth(), poster.getHeight() + fifteenPerCentOfPosterHeight, BufferedImage.TRANSLUCENT);
 			Graphics2D graphics = sticker.createGraphics();
 			
+			var font = new Font(Font.SANS_SERIF, Font.BOLD, (poster.getWidth() * 10/100));
 			graphics.drawImage(poster, 0, 0, null);		
 			graphics.setFont(font);
 			graphics.setColor(Color.YELLOW);
@@ -49,9 +49,10 @@ public class StickerGenerator {
 			
 			int centerOfSticker = sticker.getWidth() / 2;
 			int centerOfText = (graphics.getFontMetrics().stringWidth(evaluation) / 2);
+			var stars = rating.getStars();
 			
 			graphics.drawString(evaluation, centerOfSticker - centerOfText, sticker.getHeight() - (fifteenPerCentOfPosterHeight/2));
-			graphics.drawImage(rating.getStars(), (sticker.getWidth() / 2) - (rating.getStars().getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);
+			graphics.drawImage(stars, centerOfSticker - (stars.getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);
 			
 			File path = new File(Path.of("").toAbsolutePath().toString() + "/output");
 			
