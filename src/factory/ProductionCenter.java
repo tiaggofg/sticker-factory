@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 
-import entertaimentContent.imdb.ImdbMovie;
+import entertaimentContent.Content;
 import extractor.ImdbExtractor;
 import http.MyHttpClient;
 
@@ -13,13 +13,20 @@ public class ProductionCenter {
 	public static void main(String[] args) throws ParseException, MalformedURLException {
 
 		String url = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
-		String json  = (new MyHttpClient()).getContent(url);
-		var extractor = new ImdbExtractor();
+		String json  = MyHttpClient.getContent(url);
+		ImdbExtractor extractor = new ImdbExtractor();
 		
-		List<ImdbMovie> movies = extractor.data(json);
+		List<Content> movies = extractor.data(json);
 		
 		for (int k = 1; k < 10; k++) {
-			StickerGenerator.producer(movies.get(k).getImageUrl(), movies.get(k).getTitle(), movies.get(k).getImdbRating());
+			var imageUrl = movies.get(k).getImageUrl();
+			var title = movies.get(k).getTitle();
+			var rating = movies.get(k).getRating();
+			
+			System.out.println(title);
+			System.out.println(String.format("%.0f", rating) + "\n");
+			
+			StickerGenerator.producer(imageUrl, title, rating);
 		}
 		
 	}

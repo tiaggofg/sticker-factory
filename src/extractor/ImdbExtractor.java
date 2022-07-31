@@ -9,16 +9,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import entertaimentContent.Content;
 import entertaimentContent.imdb.ImdbMovie;
 
-public class ImdbExtractor {
+public class ImdbExtractor implements Extractor {
 	
-	public List<ImdbMovie> data (String json) {
+	public List<Content> data (String json) {
 		
 		try {
 			
 			List<Map<String, String>> data = (new JsonParser()).parse(json);
-			List<ImdbMovie> movies = new ArrayList<>();
+			List<Content> movies = new ArrayList<>();
 			
 			for (Map<String, String> movie : data) {
 				String id = movie.get("id");

@@ -11,6 +11,8 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
+import org.imgscalr.Scalr;
+
 import factory.classification.Classification;
 import factory.classification.Rating;
 
@@ -33,7 +35,7 @@ public class StickerGenerator {
 			Graphics2D graphics = sticker.createGraphics();
 			
 			var font = new Font(Font.SANS_SERIF, Font.BOLD, (poster.getWidth() * 10/100));
-			graphics.drawImage(poster, 0, 0, null);		
+			graphics.drawImage(poster, 0, 0, null);	
 			graphics.setFont(font);
 			graphics.setColor(Color.YELLOW);
 			
@@ -49,7 +51,7 @@ public class StickerGenerator {
 			
 			int centerOfSticker = sticker.getWidth() / 2;
 			int centerOfText = (graphics.getFontMetrics().stringWidth(evaluation) / 2);
-			var stars = rating.getStars();
+			var stars = Scalr.resize(rating.getStars(), sticker.getWidth() * 90/100);
 			
 			graphics.drawString(evaluation, centerOfSticker - centerOfText, sticker.getHeight() - (fifteenPerCentOfPosterHeight/2));
 			graphics.drawImage(stars, centerOfSticker - (stars.getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);

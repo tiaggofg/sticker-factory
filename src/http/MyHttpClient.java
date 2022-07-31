@@ -9,7 +9,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class MyHttpClient {
 	
-	public String getContent (String url) {
+	public static String getContent (String url) {
 		
 		try {
 			
