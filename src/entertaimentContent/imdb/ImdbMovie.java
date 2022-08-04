@@ -1,5 +1,6 @@
 package entertaimentContent.imdb;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 
@@ -13,8 +14,9 @@ public class ImdbMovie extends Content {
 	private String[] crew;
 	private Date year;
 	private Double imdbRatingCount;
+	private Double imdbRating;
 
-	public ImdbMovie(String id, Integer rank, String title, String fullTitle, URL imageUrl, String[] crew, Date year, Double imdbRating, Double imdbRatingCount) {
+	public ImdbMovie(String id, Integer rank, String title, String fullTitle, URL imageUrl, String[] crew, Date year, Double imdbRating, Double imdbRatingCount) throws IOException {
 		super(title, imageUrl, imdbRating);
 		this.id = id;
 		this.rank = rank;
@@ -22,6 +24,7 @@ public class ImdbMovie extends Content {
 		this.crew = crew;
 		this.year = year;
 		this.imdbRatingCount = imdbRatingCount;
+		this.imdbRating = imdbRating;
 	}
 
 	public String getId() {
@@ -46,6 +49,10 @@ public class ImdbMovie extends Content {
 
 	public Double getImdbRatingCount() {
 		return imdbRatingCount;
+	}
+	
+	public Double getImdbRating() {
+		return imdbRating;
 	}
 	
 }

@@ -23,10 +23,10 @@ public class ProductionCenter {
 			var title = movies.get(k).getTitle();
 			var rating = movies.get(k).getRating();
 			
-			System.out.println(title);
-			System.out.println(String.format("%.0f", rating) + "\n");
-			
 			StickerGenerator.producer(imageUrl, title, rating);
+			System.out.println(title + "\n");
+			//System.out.println(rating.get);
+			
 		}
 		
 	}

@@ -17,18 +17,12 @@ import factory.classification.Classification;
 import factory.classification.Rating;
 
 public class StickerGenerator {
-	
-	private static Rating rating;
-	
-	public StickerGenerator () {
-	}
 
-	public static void producer (URL imageUrl, String title, Double value) {
+	public static void producer (URL imageUrl, String title, Rating rating) {
 
 		String evaluation;
 		
 		try {
-			rating = new Rating(value);
 			BufferedImage poster = ImageIO.read(imageUrl);
 			int fifteenPerCentOfPosterHeight = (poster.getHeight() * 15/100);
 			BufferedImage sticker = new BufferedImage(poster.getWidth(), poster.getHeight() + fifteenPerCentOfPosterHeight, BufferedImage.TRANSLUCENT);
@@ -56,7 +50,7 @@ public class StickerGenerator {
 			graphics.drawString(evaluation, centerOfSticker - centerOfText, sticker.getHeight() - (fifteenPerCentOfPosterHeight/2));
 			graphics.drawImage(stars, centerOfSticker - (stars.getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);
 			
-			File path = new File(Path.of("").toAbsolutePath().toString() + "/output");
+			File path = new File(Path.of("").toAbsolutePath().toString().split("/bin")[0] + "/output");
 			
 			if (!path.exists()) {
 				path.mkdir();
@@ -66,7 +60,7 @@ public class StickerGenerator {
 			}
 			
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}

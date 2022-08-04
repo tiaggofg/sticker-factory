@@ -1,5 +1,6 @@
 package extractor;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -32,7 +33,11 @@ public class ImdbExtractor implements Extractor {
 				Date year = (new SimpleDateFormat("yyyy")).parse(movie.get("year"));
 				Double imdbRating = Double.parseDouble(movie.get("imDbRating"));
 				Double imdbRatingCount = Double.parseDouble(movie.get("imDbRatingCount"));	
-				movies.add(new ImdbMovie(id, rank, title, fullTitle, imageUrl, crew, year, imdbRating, imdbRatingCount));
+				try {
+					movies.add(new ImdbMovie(id, rank, title, fullTitle, imageUrl, crew, year, imdbRating, imdbRatingCount));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			return movies;
 			

@@ -1,17 +1,20 @@
 package entertaimentContent;
 
+import java.io.IOException;
 import java.net.URL;
+
+import factory.classification.Rating;
 
 public abstract class Content {
 
 	private String title;
 	private URL imageUrl;
-	private Double rating;
+	private Rating rating;
 	
-	public Content (String title, URL imageUrl, Double rating) {
+	public Content (String title, URL imageUrl, Double rating) throws IOException {
 		this.title = title;
 		this.imageUrl = imageUrl;
-		this.rating = rating;
+		this.rating = new Rating(rating);
 	}
 	
 	public String getTitle() {
@@ -22,7 +25,7 @@ public abstract class Content {
 		return imageUrl;
 	}
 	
-	public Double getRating() {
+	public Rating getRating() {
 		return rating;
 	}
 }
