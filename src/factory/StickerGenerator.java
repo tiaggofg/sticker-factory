@@ -17,10 +17,10 @@ import factory.classification.Classification;
 import factory.classification.Rating;
 
 public class StickerGenerator {
+	
+	public static void producer(URL imageUrl, String title, Rating rating) {
 
-	public static void producer (URL imageUrl, String title, Rating rating) {
-
-		String evaluation;
+		var evaluation = StickerGenerator.evaluationGenerator(rating);
 		
 		try {
 			BufferedImage poster = ImageIO.read(imageUrl);
@@ -33,16 +33,6 @@ public class StickerGenerator {
 			graphics.setFont(font);
 			graphics.setColor(Color.YELLOW);
 			
-			if (rating.getClassification() == Classification.AWFUL) {
-				evaluation = "Não perca tempo";
-			} else if (rating.getClassification() == Classification.MEDIOCRE) {
-				evaluation = "Poderia ser melhor";
-			} else if (rating.getClassification() == Classification.GOOD) {
-				evaluation = "Bom";
-			} else {
-				evaluation = "Não deixe de ver";
-			}
-			
 			int centerOfSticker = sticker.getWidth() / 2;
 			int centerOfText = (graphics.getFontMetrics().stringWidth(evaluation) / 2);
 			var stars = Scalr.resize(rating.getStars(), sticker.getWidth() * 90/100);
@@ -50,8 +40,7 @@ public class StickerGenerator {
 			graphics.drawString(evaluation, centerOfSticker - centerOfText, sticker.getHeight() - (fifteenPerCentOfPosterHeight/2));
 			graphics.drawImage(stars, centerOfSticker - (stars.getWidth() / 2), sticker.getHeight() - (fifteenPerCentOfPosterHeight/2) + 10, null);
 			
-			File path = new File(Path.of("").toAbsolutePath().toString().split("/bin")[0] + "/output");
-			
+			File path = new File(Path.of("").toAbsolutePath().toString().split("/bin")[0] + "/output");			
 			if (!path.exists()) {
 				path.mkdir();
 				ImageIO.write(sticker, "png", new File(path + "/" + title + ".png"));
@@ -63,6 +52,20 @@ public class StickerGenerator {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private static String evaluationGenerator(Rating rating) {
+		String evaluation;
+		if (rating.getClassification() == Classification.AWFUL) {
+			evaluation = "Não perca tempo";
+		} else if (rating.getClassification() == Classification.MEDIOCRE) {
+			evaluation = "Poderia ser melhor";
+		} else if (rating.getClassification() == Classification.GOOD) {
+			evaluation = "Bom";
+		} else {
+			evaluation = "Não deixe de ver";
+		}
+		return evaluation;
 	}
 	
 }

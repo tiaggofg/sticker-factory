@@ -28,4 +28,5 @@ public abstract class Content {
 	public Rating getRating() {
 		return rating;
 	}
+	
 }
